@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Productivity Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <button id="menuToggle" class="icon-btn" aria-label="Toggle menu">☰</button>
+    <h1 class="brand">داشبورد بهره‌وری</h1>
+    <div class="header-actions">
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <nav>
+      <a href="#/dashboard" data-route class="nav-link active">📊 داشبورد</a>
+      <a href="#/tasks" data-route class="nav-link">✅ کارها</a>
+      <a href="#/notes" data-route class="nav-link">📝 یادداشت‌ها</a>
+    </nav>
+    <footer class="sidebar-footer">v1.0</footer>
+  </aside>
+
+  <main id="app">
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view active">
+      <div class="cards">
+        <div class="card">
+          <h3>کارهای امروز</h3>
+          <div class="kpi" id="kpi-today">0</div>
+        </div>
+        <div class="card">
+          <h3>انجام‌شده‌ها</h3>
+          <div class="kpi" id="kpi-done">0</div>
+        </div>
+        <div class="card">
+          <h3>در حال انجام</h3>
+          <div class="kpi" id="kpi-active">0</div>
+        </div>
+      </div>
+
+      <div class="widgets-grid">
+        <div class="widget">
+          <h3>یادداشت امروز</h3>
+          <p id="quote">در حال بارگذاری...</p>
+          <button id="refreshQuote" class="btn">بروزرسانی جمله</button>
+          <small id="quoteError" class="error"></small>
+        </div>
+
+        <div class="widget">
+          <h3>سریع اضافه کن</h3>
+          <form id="quickAddForm" class="row">
+            <input type="text" id="quickTitle" placeholder="عنوان کار" required />
+            <select id="quickPriority">
+              <option value="low">کم</option>
+              <option value="medium">متوسط</option>
+              <option value="high">زیاد</option>
+            </select>
+            <button class="btn">افزودن</button>
+          </form>
+          <div class="tips">
+            <strong>Tip:</strong> با کلیک روی کار می‌تونی وضعیتش رو تغییر بدی.
+          </div>
+          <ul id="quickList" class="simple-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS -->
+    <section id="view-tasks" class="view">
+      <div class="panel">
+        <h2>مدیریت کارها</h2>
+        <form id="taskForm" class="grid-2">
+          <div>
+            <label>عنوان</label>
+            <input type="text" id="taskTitle" placeholder="مثلاً: تمرین جاوااسکریپت" required />
+          </div>
+          <div>
+            <label>تاریخ (اختیاری)</label>
+            <input type="date" id="taskDate" />
+          </div>
+          <div>
+            <label>اولویت</label>
+            <select id="taskPriority">
+              <option value="low">کم</option>
+              <option value="medium" selected>متوسط</option>
+              <option value="high">زیاد</option>
+            </select>
+          </div>
+          <div>
+            <label>توضیحات</label>
+            <textarea id="taskDesc" rows="2" placeholder="توضیح کوتاه..."></textarea>
+          </div>
+          <div class="full">
+            <button class="btn primary">افزودن کار</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="row between">
+          <h3>لیست کارها</h3>
+          <div class="row gap">
+            <select id="filterStatus">
+              <option value="all">همه</option>
+              <option value="active">در حال انجام</option>
+              <option value="done">انجام‌شده</option>
+            </select>
+            <select id="filterPriority">
+              <option value="all">همه اولویت‌ها</option>
+              <option value="high">زیاد</option>
+              <option value="medium">متوسط</option>
+              <option value="low">کم</option>
+            </select>
+            <input type="search" id="searchTask" placeholder="جستجو..." />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table" id="taskTable">
+            <thead>
+              <tr>
+                <th>وضعیت</th>
+                <th>عنوان</th>
+                <th>اولویت</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+              </tr>
+            </thead>
+            <tbody><!-- rows by JS --></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section id="view-notes" class="view">
+      <div class="panel">
+        <h2>یادداشت‌های سریع</h2>
+        <form id="noteForm" class="grid-2">
+          <div class="full">
+            <label>عنوان</label>
+            <input id="noteTitle" type="text" placeholder="تیتر یادداشت" required />
+          </div>
+          <div class="full">
+            <label>متن</label>
+            <textarea id="noteBody" rows="4" placeholder="متن یادداشت..." required></textarea>
+          </div>
+          <div class="full">
+            <button class="btn primary">ذخیره یادداشت</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="notes-grid" id="notesGrid"><!-- cards by JS --></div>
+    </section>
+  </main>
+
+ 
+
+  <script src="script.js"></script>
+</body>
+</html>
